@@ -37,11 +37,10 @@ class SafetyNode(Node):
         angles = np.linspace(scan_msg.angle_min, scan_msg.angle_max, len(ranges))
         cos_angles = np.cos(angles)
         relative_speeds = self.speed * cos_angles
-        ttc = np.where(relative_speeds > 0, ranges / relative_speeds, np.inf)
-        min_ttc = np.min(ttc)
+        ttc = ranges / relative_speeds
+        min_ttc = np.min(ttc[ttc > 0])
 
-        # Threshold for emergency braking
-        ttc_threshold = 1.0  # seconds
+        ttc_threshold = 1.0
 
         if min_ttc < ttc_threshold:
             print(min_ttc)
