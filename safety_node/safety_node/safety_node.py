@@ -33,25 +33,21 @@ class SafetyNode(Node):
         self.speed = odom_msg.twist.twist.linear.x
 
     def scan_callback(self, scan_msg: LaserScan):
-        # Calculate TTC
         ranges = np.array(scan_msg.ranges)
         angles = np.linspace(scan_msg.angle_min, scan_msg.angle_max, len(ranges))
         cos_angles = np.cos(angles)
         relative_speeds = self.speed * cos_angles
-        ttc = ranges / relative_speeds
+        ttc = np.where(relative_speeds > 0, ranges / relative_speeds, np.inf)
         min_ttc = np.min(ttc)
 
         # Threshold for emergency braking
         ttc_threshold = 1.0  # seconds
 
         if min_ttc < ttc_threshold:
-            self.publish_brake_command()
-
-    def publish_brake_command(self):
-        brake_msg = AckermannDriveStamped()
-        brake_msg.drive.speed = 0.0
-        brake_msg.drive.acceleration = -5.0  # Arbitrary negative acceleration for braking
-        self.drive_publisher.publish(brake_msg)
+            print(min_ttc)
+            brake_msg = AckermannDriveStamped()
+            brake_msg.drive.speed = 0.0
+            self.drive_publisher.publish(brake_msg)
 
 def main(args=None):
     rclpy.init(args=args)
