@@ -1,0 +1,6 @@
+{
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "sim",
+    "workspaceFolder": "/sim_ws/src/"
+  }
+  
