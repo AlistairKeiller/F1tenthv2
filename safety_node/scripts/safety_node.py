@@ -3,7 +3,6 @@ import rclpy
 from rclpy.node import Node
 
 import numpy as np
-# TODO: include needed ROS msg type headers and libraries
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 from ackermann_msgs.msg import AckermannDriveStamped, AckermannDrive
@@ -26,17 +25,33 @@ class SafetyNode(Node):
         NOTE that the x component of the linear velocity in odom is the speed
         """
         self.speed = 0.
-        # TODO: create ROS subscribers and publishers.
+        self.create_subscription(Odometry, '/ego_racecar/odom', self.odom_callback, 10)
+        self.create_subscription(LaserScan, '/scan', self.scan_callback, 10)
+        self.drive_publisher = self.create_publisher(AckermannDriveStamped, '/drive', 10)
 
-    def odom_callback(self, odom_msg):
-        # TODO: update current speed
-        self.speed = 0.
+    def odom_callback(self, odom_msg: Odometry):
+        self.speed = odom_msg.twist.twist.linear.x
 
-    def scan_callback(self, scan_msg):
-        # TODO: calculate TTC
-        
-        # TODO: publish command to brake
-        pass
+    def scan_callback(self, scan_msg: LaserScan):
+        # Calculate TTC
+        ranges = np.array(scan_msg.ranges)
+        angles = np.linspace(scan_msg.angle_min, scan_msg.angle_max, len(ranges))
+        cos_angles = np.cos(angles)
+        relative_speeds = self.speed * cos_angles
+        ttc = ranges / relative_speeds
+        min_ttc = np.min(ttc)
+
+        # Threshold for emergency braking
+        ttc_threshold = 1.0  # seconds
+
+        if min_ttc < ttc_threshold:
+            self.publish_brake_command()
+
+    def publish_brake_command(self):
+        brake_msg = AckermannDriveStamped()
+        brake_msg.drive.speed = 0.0
+        brake_msg.drive.acceleration = -5.0  # Arbitrary negative acceleration for braking
+        self.drive_publisher.publish(brake_msg)
 
 def main(args=None):
     rclpy.init(args=args)
