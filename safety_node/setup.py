@@ -13,10 +13,10 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='Hongrui Zheng, zzangupenn',
-    maintainer_email='billyzheng.bz@gmail.com, zzang@seas.upenn.edu',
-    description='Skeleton code for Lab 1: Automatic Emergency Braking at University of Pennsylvania',
-    license='MIT',
+    maintainer='root',
+    maintainer_email='alistair@keiller.net',
+    description='TODO: Package description',
+    license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
