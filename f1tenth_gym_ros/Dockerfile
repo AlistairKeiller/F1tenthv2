@@ -51,6 +51,7 @@ RUN source /opt/ros/foxy/setup.bash && \
     colcon build
 
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+RUN echo "source install/local_setup.bash" >> ~/.bashrc
 
 WORKDIR '/sim_ws'
 ENTRYPOINT ["/bin/bash"]
