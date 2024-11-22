@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'wall_follow'
+package_name = 'wall_follow_node'
 
 setup(
     name=package_name,
@@ -13,14 +13,14 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='zzangupenn, Hongrui Zheng',
-    maintainer_email='zzang@seas.upenn.edu, billyzheng.bz@gmail.com',
-    description='f1tenth wall_follow lab',
-    license='MIT',
+    maintainer='root',
+    maintainer_email='alistair@keiller.net',
+    description='TODO: Package description',
+    license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'wall_follow_node = wall_follow.wall_follow:main',
+            'wall_follow_node = wall_follow_node.wall_follow_node:main'
         ],
     },
 )

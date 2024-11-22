@@ -3,9 +3,7 @@
 <package format="3">
   <name>safety_node</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="alistair@keiller.net">root</maintainer>
-  <license>TODO: License declaration</license>
+  <description>f1tenth safety_node lab</description>
 
   <depend>rclcpp</depend>
   <depend>rclpy</depend>
