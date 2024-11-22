@@ -5,7 +5,7 @@ import numpy as np
 from sensor_msgs.msg import LaserScan
 from ackermann_msgs.msg import AckermannDriveStamped
 
-class WallFollow(Node):
+class WallFollowNode(Node):
     """ 
     Implement Wall Following on the car
     """
@@ -123,7 +123,7 @@ class WallFollow(Node):
 def main(args=None):
     rclpy.init(args=args)
     print("WallFollow Initialized")
-    wall_follow_node = WallFollow()
+    wall_follow_node = WallFollowNode()
     rclpy.spin(wall_follow_node)
 
     # Destroy the node explicitly
