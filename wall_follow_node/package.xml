@@ -4,6 +4,8 @@
   <name>wall_follow_node</name>
   <version>0.0.0</version>
   <description>f1tenth wall_follow lab</description>
+  <maintainer email="alistair@keiller.net">Alistair Keiller</maintainer>
+  <license>MIT</license>
 
   <depend>rclcpp</depend>
   <depend>rclpy</depend>
